@@ -1,0 +1,4 @@
+/venv
+.env
+front-end/lib/
+.gitignore
