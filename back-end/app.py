@@ -1,15 +1,15 @@
-# Código Flask atualizado para extração correta do texto da resposta
 from flask import Flask, jsonify, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 import google.generativeai as genai
 import os
 from flask_cors import CORS
 from dotenv import load_dotenv
 import pandas as pd
 import markdown
-import jwt
 import datetime
+import jwt
 
 load_dotenv()
 
@@ -68,39 +68,65 @@ def query_bot():
     
 @app.route('/api/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No input data provided'}), 400
 
-    if User.query.filter_by(username=username).first():
-        return jsonify({'error': 'User already exists'}), 400
+        username = data.get('username')
+        password = data.get('password')
 
-    hashed_password = generate_password_hash(password, method='sha256')
-    new_user = User(username=username, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
 
-    return jsonify({'message': 'User registered successfully'}), 201
+        if User.query.filter_by(username=username).first():
+            return jsonify({'error': 'User already exists'}), 400
+
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({'message': 'User registered successfully'}), 201
+    
+    except Exception as e:
+        print(f"Error during registration: {e}")
+        return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No input data provided'}), 400
 
-    user = User.query.filter_by(username=username).first()
+        username = data.get('username')
+        password = data.get('password')
 
-    if not user or not check_password_hash(user.password, password):
-        return jsonify({'error': 'Invalid credentials'}), 401
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
 
-    token = jwt.encode({'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, app.config['SECRET_KEY'], algorithm='HS256')
+        user = User.query.filter_by(username=username).first()
 
-    return jsonify({'token': token}), 200
+        if not user or not check_password_hash(user.password, password):
+            return jsonify({'error': 'Invalid credentials'}), 401
+
+        token = jwt.encode(
+            {'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)},
+            app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+
+        return jsonify({'token': token}), 200
+
+    except Exception as e:
+        print(f"Error during login: {e}")
+        return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
 @app.route('/api/test_db', methods=['GET'])
 def test_db():
     try:
-        db.session.execute('SELECT 1')
+        db.session.execute(text('SELECT 1'))
         return jsonify({'message': 'Database connection is working'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
