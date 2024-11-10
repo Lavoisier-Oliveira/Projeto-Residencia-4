@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./back-end  # Local do Dockerfile do Flask
+    ports:
+      - "5000:5000"  # Mapeia a porta 5000 do contêiner para a porta 5000 do host
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
+    depends_on:
+      - database
+    volumes:
+      - ./back-end:/app  # Monta o diretório do código-fonte para desenvolvimento
+    env_file:
+      - .env  # Carrega todas as variáveis do .env
+
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com  # Configurar um email padrão para login no pgAdmin
+      - PGADMIN_DEFAULT_PASSWORD=admin         # Configurar uma senha para login
+    ports:
+      - "5050:80"  # Mapeia a porta 5050 do host para acessar o pgAdmin
+
+  frontend:
+    build: ./front-end  # Local do Dockerfile do Nginx
+    ports:
+      - "80:80"  # Mapeia a porta 80 do contêiner para a porta 80 do host
+    volumes:
+      - ./front-end:/usr/share/nginx/html  # Monta o diretório do código-fonte para desenvolvimento
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

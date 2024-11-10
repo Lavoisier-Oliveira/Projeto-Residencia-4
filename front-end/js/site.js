@@ -2,42 +2,36 @@ async function sendMessage() {
     const message = document.getElementById("chatInput").value.trim();
     const messagesContainer = document.getElementById("messages-container");
 
-    // Verifica se o campo de mensagem está vazio
-    if (message === "") { return; }
+    if (message === "") {
+        return;
+    }
 
-    // Remove a mensagem inicial se ela existir
     const mensagemInicial = document.getElementById("inicial-message");
     if (mensagemInicial) {
         mensagemInicial.remove();
     }
 
-    // Altera o CSS do chat para mostrar a mensagem do usuário
     messagesContainer.style.gap = "5px";
     messagesContainer.style.padding = "20px";
     messagesContainer.style.width = "100%";
     messagesContainer.style.height = "100%";
 
-    // Cria um novo elemento para a mensagem do usuário
     const userMessageDiv = document.createElement("div");
     const userMessage = document.createElement("div");
     userMessage.textContent = message;
-
     userMessageDiv.classList.add("message-div");
     userMessageDiv.style.justifyContent = "flex-end";
     userMessage.classList.add("sent-message");
-
     userMessageDiv.appendChild(userMessage);
     messagesContainer.appendChild(userMessageDiv);
 
-    // Rola para a parte inferior do chat body
     const chatBody = document.querySelector(".chat-body");
     chatBody.scrollTop = chatBody.scrollHeight;
 
-    // Limpa o campo de input após enviar a mensagem
     document.getElementById("chatInput").value = "";
 
     try {
-        const response = await fetch('http://localhost:5000/api/data', {
+        const response = await fetch('http://localhost:5000/api/chatbot', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,28 +44,20 @@ async function sendMessage() {
         }
 
         const data = await response.json();
-
-        // Cria o elemento para a resposta do chatbot e insere o HTML gerado
         const botResponseDiv = document.createElement("div");
         const botResponse = document.createElement("div");
-
-        botResponse.innerHTML = data.response; // Usa o HTML convertido
+        botResponse.innerHTML = data.response;
         botResponseDiv.classList.add("message-div");
         botResponse.classList.add("received-message");
-
         botResponseDiv.appendChild(botResponse);
         messagesContainer.appendChild(botResponseDiv);
-
-        // Rola para a parte inferior do chat
         chatBody.scrollTop = chatBody.scrollHeight;
     } catch (error) {
-        console.error('Error:', error); // Log de erro no console
+        console.error('Error:', error);
         const errorMessageDiv = document.createElement("div");
         errorMessageDiv.textContent = "Ocorreu um erro ao enviar a mensagem.";
-        errorMessageDiv.classList.add("error-message"); // Adicionando uma classe para estilização
+        errorMessageDiv.classList.add("error-message");
         messagesContainer.appendChild(errorMessageDiv);
-
-        // Rola para a parte inferior do chat body
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 }
