@@ -564,10 +564,98 @@ h6 {
 }
 
 
+/* Telas de Cadastro e Login */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+  /* body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  } */
+
+.login-register-container {
+    width: 320px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-register-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-register-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #4a4aff;
+    border-radius: 30px;
+    font-size: 16px;
+}
+
+.login-register-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 30px;
+    background-color: #6a0dad;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-register-container button:hover {
+    background-color: #5b0caa;
+}
+
+.login-register-container a {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #4a4aff;
+    text-decoration: none;
+}
+
+.login-register-container a:hover {
+    text-decoration: underline;
+}
 
 
+.register {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background-color: #1e1b1d;
+  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
 
-
+.btn-submit {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #db4366;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
 
 
 .chatbot-sidebar {
@@ -599,7 +687,7 @@ h6 {
 }
 
 .chat-header {
-  padding: 10 0 ;
+  padding: 10 0;
 }
 
 .chat-header p {
@@ -621,26 +709,31 @@ h6 {
   flex-direction: column;
 }
 
-.chat-body p  {
+.chat-body p {
   font-size: 24px;
   font-family: "monument_extendedregular";
+  margin-bottom: 0;
 }
 
 .chat-input {
   display: flex;
   align-items: center;
-  background-color: #1f1c1e; /* Cor do fundo do input */
+  background-color: #1f1c1e;
+  /* Cor do fundo do input */
   padding: 10px 20px;
   border-radius: 32px;
-  width: 100%; /* Mantenha a largura total */
-  margin-top: auto; /* Mantém o campo de entrada fixo na parte inferior */
+  width: 100%;
+  /* Mantenha a largura total */
+  margin-top: auto;
+  /* Mantém o campo de entrada fixo na parte inferior */
 }
 
 .message-div {
   display: flex;
 }
 
-.sent-message, .received-message {
+.sent-message,
+.received-message {
   font-size: 16px;
   background-color: #1f1c1e;
   border-radius: 15px;
@@ -656,14 +749,15 @@ h6 {
 
 
 .nav-link.active {
-  background-color: #282527 !important; 
+  background-color: #282527 !important;
 }
 
 
 .chat-input {
   display: flex;
   align-items: center;
-  background-color: #1f1c1e; /* Cor do fundo do input */
+  background-color: #1f1c1e;
+  /* Cor do fundo do input */
   border-radius: 15px;
   padding: 10px 15px;
   width: 90%;
@@ -674,14 +768,16 @@ h6 {
   background-color: transparent;
   border: none;
   outline: none;
-  color: #c2c2c2; /* Cor do texto */
+  color: #c2c2c2;
+  /* Cor do texto */
   font-size: 16px;
   flex: 1;
   margin-right: 10px;
 }
 
 .custom-input::placeholder {
-  color: #c2c2c2; /* Cor do placeholder */
+  color: #c2c2c2;
+  /* Cor do placeholder */
 }
 
 .send-button {
@@ -702,21 +798,27 @@ h6 {
 
 /* Estiliza a barra de rolagem para o container de mensagens */
 .chat-body::-webkit-scrollbar {
-  width: 8px; /* Largura da barra de rolagem */
+  width: 8px;
+  /* Largura da barra de rolagem */
 }
 
 .chat-body::-webkit-scrollbar-thumb {
-  background-color: #db4366; /* Cor da parte que você pode arrastar */
-  border-radius: 20px; /* Arredonda as bordas do thumb */
+  background-color: #db4366;
+  /* Cor da parte que você pode arrastar */
+  border-radius: 20px;
+  /* Arredonda as bordas do thumb */
 }
 
 .chat-body::-webkit-scrollbar-thumb:hover {
-  background-color: #db4366; /* Cor do thumb ao passar o mouse */
+  background-color: #db4366;
+  /* Cor do thumb ao passar o mouse */
 }
 
 .chat-body::-webkit-scrollbar-track {
-  background: #1f1c1e; /* Cor de fundo da trilha da barra de rolagem */
-  border-radius: 20px; /* Arredonda as bordas da trilha */
+  background: #1f1c1e;
+  /* Cor de fundo da trilha da barra de rolagem */
+  border-radius: 20px;
+  /* Arredonda as bordas da trilha */
 }
 
 
