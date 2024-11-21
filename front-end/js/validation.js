@@ -26,7 +26,7 @@ function validateLogin() {
             alert(data.error);
         } else {
             alert('Login bem-sucedido!');
-            sessionStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('token', data.token); // Armazena o token JWT no localStorage
             window.location.href = 'contato.html';
         }
     })

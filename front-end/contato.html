@@ -13,16 +13,16 @@
 
 <body>
   <script>
-    // Verifica se o usuário está logado
+    // Verifica se o token JWT está presente no localStorage
     function isLoggedIn() {
-      return sessionStorage.getItem('loggedIn') === 'true';
+        return localStorage.getItem('token') !== null;
     }
 
     // Redireciona para a página de login se não estiver logado
     if (!isLoggedIn()) {
-      window.location.href = 'login.html';
+        window.location.href = 'login.html';
     }
-  </script>
+</script>
   <header>
     <nav class="navbar fixed-top">
       <div class="container-fluid default-margins align-items-center">

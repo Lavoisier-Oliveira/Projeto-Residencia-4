@@ -121,13 +121,12 @@ def login():
         if not user or not check_password_hash(user.password, password):
             return jsonify({'error': 'Invalid credentials'}), 401
 
-        token = jwt.encode(
-            {'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)},
-            app.config['SECRET_KEY'],
-            algorithm='HS256'
-        )
+        token = jwt.encode({
+            'user_id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+        }, app.config['SECRET_KEY'], algorithm='HS256')
 
-        return jsonify({'message': 'Login successful'}), 200
+        return jsonify({'token': token}), 200
 
     except Exception as e:
         print(f"Error during login: {e}")
