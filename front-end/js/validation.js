@@ -12,8 +12,29 @@ function validateLogin() {
         return false;
     }
 
-    // Se todos os campos estiverem válidos, envie o formulário
-    alert('Login bem-sucedido!');
+    // Envie os dados de login para o backend
+    fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert('Login bem-sucedido!');
+            sessionStorage.setItem('loggedIn', 'true');
+            window.location.href = 'contato.html';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Erro ao fazer login. Tente novamente mais tarde.');
+    });
+
     return true;
 }
 
@@ -64,19 +85,14 @@ function validateRegister() {
         password: password
     };
 
-    fetch('http://127.0.0.1:5000/cadastro', {
+    fetch('http://127.0.0.1:5000/cadastro', { // URL corrigida
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(userData)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.error) {
             alert(data.error);
@@ -89,6 +105,8 @@ function validateRegister() {
         console.error('Error:', error);
         alert('Erro ao cadastrar. Tente novamente mais tarde.');
     });
+
+    return true;
 }
 
 function validateEmail(email) {

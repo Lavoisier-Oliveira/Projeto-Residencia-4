@@ -110,13 +110,13 @@ def login():
         if not data:
             return jsonify({'error': 'No input data provided'}), 400
 
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
 
-        if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+        if not email or not password:
+            return jsonify({'error': 'Email and password are required'}), 400
 
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(email=email).first()
 
         if not user or not check_password_hash(user.password, password):
             return jsonify({'error': 'Invalid credentials'}), 401
@@ -127,7 +127,7 @@ def login():
             algorithm='HS256'
         )
 
-        return jsonify({'token': token}), 200
+        return jsonify({'message': 'Login successful'}), 200
 
     except Exception as e:
         print(f"Error during login: {e}")
