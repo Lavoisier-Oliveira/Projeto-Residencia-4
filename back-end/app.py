@@ -20,17 +20,21 @@ genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Configuração do banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@database:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    telefone = db.Column(db.String(20), nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    data_de_criacao = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-# Criação da tabela
 with app.app_context():
     db.create_all()
 
@@ -47,7 +51,7 @@ for index, row in df.iterrows():
 chat = model.start_chat(history=history)
 
 
-@app.route('/api/chatbot', methods=['POST'])
+@app.route('/chat', methods=['POST'])
 def query_bot():
     data = request.get_json()
     consulta = data.get('consulta', '')
@@ -66,24 +70,30 @@ def query_bot():
         print("Error while processing request:", e)
         return jsonify({'error': 'Could not retrieve response from bot'}), 500
     
-@app.route('/api/register', methods=['POST'])
+@app.route('/cadastro', methods=['POST'])
 def register():
     try:
         data = request.get_json()
         if not data:
             return jsonify({'error': 'No input data provided'}), 400
 
+        nome = data.get('nome')
+        email = data.get('email')
+        telefone = data.get('telefone')
         username = data.get('username')
         password = data.get('password')
 
-        if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+        if not nome or not email or not telefone or not username or not password:
+            return jsonify({'error': 'All fields are required'}), 400
+
+        if User.query.filter_by(email=email).first():
+            return jsonify({'error': 'Email already exists'}), 400
 
         if User.query.filter_by(username=username).first():
-            return jsonify({'error': 'User already exists'}), 400
+            return jsonify({'error': 'Username already exists'}), 400
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(nome=nome, email=email, telefone=telefone, username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -93,7 +103,7 @@ def register():
         print(f"Error during registration: {e}")
         return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     try:
         data = request.get_json()

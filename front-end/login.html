@@ -1,17 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css">
-    <title>Cadastre-se</title>
+    <title>Login</title>
 </head>
+
 <body>
-    <div class="login-register-container">
-        <h6>Login</h6>
-        <input type="email" placeholder="E-mail" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit">Login</button>
+    <style>
+        /* Estilos para centralizar e aplicar cores */
+        .container-login,
+        .container-register {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2a2729;
+            /* Cor de fundo ajustada */
+        }
+
+        .login-register-container {
+            width: 320px;
+            padding: 40px;
+            background: #343032;
+            /* Cor de fundo da caixa ajustada */
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: #f5f5f5;
+            /* Cor do texto para contraste melhorado */
+        }
+
+        .login-register-container h6 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e94c6f;
+            /* Cor do título ajustada */
+        }
+
+        .login-register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #e94c6f;
+            /* Cor da borda ajustada */
+            border-radius: 30px;
+            font-size: 16px;
+            background-color: #2a2729;
+            /* Fundo do input ajustado */
+            color: #f5f5f5;
+            /* Texto do input */
+        }
+
+        .login-register-container input::placeholder {
+            color: #b3b3b3;
+            /* Placeholder mais visível */
+        }
+
+        .login-register-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            background-color: #e94c6f;
+            /* Botão com destaque */
+            color: #f5f5f5;
+            /* Texto do botão */
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-register-container button:hover {
+            background-color: #d6405b;
+            /* Hover do botão */
+        }
+
+        .login-register-container a {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #e94c6f;
+            /* Cor do link */
+            text-decoration: none;
+        }
+
+        .login-register-container a:hover {
+            text-decoration: underline;
+            color: #d6405b;
+            /* Cor do link ao hover */
+        }
+    </style>
+    <div class="container-login">
+        <div class="login-register-container">
+            <h6>Login</h6>
+            <input type="email" id="login-email" placeholder="E-mail" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit" onclick="validateLogin()">Login</button>
+            <a href="cadastro.html">Não possui uma conta? Cadastre-se</a>
+        </div>
     </div>
+    <script src="./js/validation.js"></script>
 </body>
+
 </html>

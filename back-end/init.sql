@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS postgres;
+
+\c postgres;
+
+CREATE TABLE IF NOT EXISTS user (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    username VARCHAR(80) UNIQUE NOT NULL,
+    password VARCHAR(120) NOT NULL,
+    data_de_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

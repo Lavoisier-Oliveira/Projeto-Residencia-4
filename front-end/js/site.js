@@ -31,7 +31,7 @@ async function sendMessage() {
     document.getElementById("chatInput").value = "";
 
     try {
-        const response = await fetch('http://localhost:5000/api/chatbot', {
+        const response = await fetch('http://localhost:5000/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
