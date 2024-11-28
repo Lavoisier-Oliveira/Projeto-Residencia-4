@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
   database:
-    image: postgres:15
+    image: postgres
     restart: always
     ports:
       - "5433:5432"  

@@ -16,13 +16,13 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+genai.configure(api_key='AIzaSyA9BywR_q8RVIoxzIoPc_JqQztLTJNl2Rk')
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Configuração do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@database:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = 'secret'
 db = SQLAlchemy(app)
 
 class User(db.Model):
