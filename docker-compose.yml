@@ -4,23 +4,26 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
+      - DATABASE_URL=postgresql://admin:senha123@database:5432/meu_banco
     depends_on:
       - database
     volumes:
       - ./back-end:/app
     env_file:
       - .env
-
   database:
-    image: postgres
+    image: postgres:15
+    restart: always
+    ports:
+      - "5433:5432"  
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: meu_banco
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./back-end/init.sql:/docker-entrypoint-initdb.d/init.sql
+
 
   pgadmin:
     image: dpage/pgadmin4
