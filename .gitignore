@@ -1,4 +1,6 @@
 /venv
 .env
 front-end/lib/
+front-end/node_modules/
+front-end/package-lock.json
 .gitignore
